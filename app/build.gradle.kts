@@ -23,6 +23,10 @@ dependencies {
 
     // This dependency is used by the application.
     implementation(libs.guava)
+
+    // This line to explicitly include JUnit Jupiter API
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -37,7 +41,7 @@ application {
     mainClass = "org.example.App"
 }
 
-tasks.named<Test>("test") {
+tasks.test {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
