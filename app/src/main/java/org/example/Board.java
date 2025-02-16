@@ -1,5 +1,7 @@
+package org.example;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class Board {
     private char[][] board = new char[8][8]; // 8x8 game board
@@ -115,13 +117,17 @@ public class Board {
 
     // Calculates and returns the current score
     public int[] getScore() {
-        int blackCount = 0, whiteCount = 0;
-        for (char[] row : board) {
-            for (char cell : row) {
-                if (cell == 'B') blackCount++;
-                else if (cell == 'W') whiteCount++;
-            }
-        }
-        return new int[]{blackCount, whiteCount};
+        return Arrays.stream(board)
+                .flatMapToInt(row -> new String(row).chars())
+                .collect(() -> new int[2],
+                        (score, cell) -> {
+                            if (cell == 'B') score[0]++;
+                            if (cell == 'W') score[1]++;
+                        },
+                        (score1, score2) -> {
+                            score1[0] += score2[0];
+                            score1[1] += score2[1];
+                        }
+                );
     }
 }

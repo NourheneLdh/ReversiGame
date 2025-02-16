@@ -1,3 +1,4 @@
+package org.example;
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +20,6 @@ public class ReversiGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Board Panel
         JPanel boardPanel = new JPanel(new GridLayout(8, 8));
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -28,10 +28,12 @@ public class ReversiGUI extends JFrame {
                 cell.setBackground(Color.LIGHT_GRAY);
                 cell.setFont(new Font("Arial", Font.BOLD, 24));
                 cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                // **✅ Give each button a unique name**
+                cell.setName("button_" + i + "_" + j);
+
                 int row = i;
                 int col = j;
-
-                // Add click listener
                 cell.addActionListener(e -> handleMove(row, col));
 
                 cells[i][j] = cell;
@@ -39,22 +41,19 @@ public class ReversiGUI extends JFrame {
             }
         }
 
-        // Status & Score Labels
         statusLabel = new JLabel("● Player B's turn", SwingConstants.CENTER);
         scoreLabel = new JLabel("Score: ● 2 - 2 ○", SwingConstants.CENTER);
 
-        // Add Components
         add(statusLabel, BorderLayout.NORTH);
         add(boardPanel, BorderLayout.CENTER);
         add(scoreLabel, BorderLayout.SOUTH);
 
-        // Set size and visibility
         setSize(600, 600);
         setVisible(true);
 
-        // Draw the board
         updateBoard();
     }
+
 
     private void updateBoard() {
         for (int i = 0; i < 8; i++) {
@@ -75,14 +74,16 @@ public class ReversiGUI extends JFrame {
     }
 
     private void handleMove(int row, int col) {
-        if (board.makeMove(row, col, currentPlayer)) {
-            currentPlayer = (currentPlayer == 'B') ? 'W' : 'B';
-            statusLabel.setText((currentPlayer == 'B') ? "● Player B's turn" : "○ Player W's turn");
-            updateBoard();
-            checkGameOver();
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid move! Try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        SwingUtilities.invokeLater(() -> {
+            if (board.makeMove(row, col, currentPlayer)) {
+                currentPlayer = (currentPlayer == 'B') ? 'W' : 'B';
+                statusLabel.setText((currentPlayer == 'B') ? "● Player B's turn" : "○ Player W's turn");
+                updateBoard();
+                checkGameOver();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid move! Try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
     private void updateScore() {
