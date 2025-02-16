@@ -22,6 +22,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Start virtual display (Xvfb)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1920x1080x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+
       - name: Build with Gradle
         run: |
           chmod +x gradlew
