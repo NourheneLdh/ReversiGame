@@ -66,7 +66,7 @@ cd ReversiGame
 ### 2️⃣ **Run the Game**
 If using **Gradle**, simply execute:
 ```sh
-./gradle run  # For Linux/macOS
+/gradle run  # For Linux/macOS
 gradle.bat run  # For Windows
 ```
 Or, if running manually in an IDE like IntelliJ or Eclipse:
@@ -76,7 +76,7 @@ Or, if running manually in an IDE like IntelliJ or Eclipse:
 ## ✅ Running Tests
 Run all **JUnit tests** using Gradle:
 ```sh
-./gradle test
+/gradle test
 ```
 ✅ If all tests pass, the game logic is working correctly!
 
