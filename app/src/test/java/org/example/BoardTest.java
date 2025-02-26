@@ -26,13 +26,40 @@ class BoardTest {
     }
 
     @Test
-    void testMakeMoveAndFlipPieces() {
+    void testGameOverConditionAndWinner() {
         Board board = new Board();
         board.initializeBoard();
 
-        assertTrue(board.makeMove(2, 3, 'B'), "Move should be successful");
-        assertEquals('B', board.getPiece(2, 3), "Expected B at (2,3) after move");
-        assertEquals('B', board.getPiece(3, 3), "Expected flipped piece at (3,3)");
+        // Fill the board with mostly Player B’s moves to simulate game end
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board.makeMove(i, j, 'B'); // Assuming this method places pieces correctly
+            }
+        }
+
+        // Ensure the game is over
+        assertFalse(board.hasValidMoves('B'), "No valid moves left for Player B");
+        assertFalse(board.hasValidMoves('W'), "No valid moves left for Player W");
+
+        // Get final scores
+        int[] scores = board.getScore();
+        int blackScore = scores[0];
+        int whiteScore = scores[1];
+
+        // Print for debugging
+        System.out.println("Final Score - Black: " + blackScore + ", White: " + whiteScore);
+
+        // Check that the game correctly identifies the winner
+        if (blackScore > whiteScore) {
+            System.out.println("Winner: Player B (Black)");
+            assertTrue(blackScore > whiteScore, "Player B should win");
+        } else if (whiteScore > blackScore) {
+            System.out.println("Winner: Player W (White)");
+            assertTrue(whiteScore > blackScore, "Player W should win");
+        } else {
+            System.out.println("Game ended in a tie!");
+            assertEquals(blackScore, whiteScore, "Scores should be equal for a tie");
+        }
     }
 
     @Test

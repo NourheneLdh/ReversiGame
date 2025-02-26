@@ -55,7 +55,7 @@ public class ReversiGUI extends JFrame {
     }
 
 
-    private void updateBoard() {
+    public void updateBoard() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 char piece = board.getPiece(i, j);
@@ -78,14 +78,33 @@ public class ReversiGUI extends JFrame {
             if (board.makeMove(row, col, currentPlayer)) {
                 updateBoard();  // Ensure board updates in the UI
                 this.repaint();  // Force repaint
+
+                // Switch turn
                 currentPlayer = (currentPlayer == 'B') ? 'W' : 'B';
+
+                // 🔍 Check if the new player has valid moves
+                if (!board.hasValidMoves(currentPlayer)) {
+                    System.out.println("No valid moves for " + currentPlayer + ". Skipping turn...");
+                    JOptionPane.showMessageDialog(this, "No valid moves for " + currentPlayer + ". Skipping turn...");
+
+                    // Skip turn to the other player
+                    currentPlayer = (currentPlayer == 'B') ? 'W' : 'B';
+
+                    // If both players have no moves, call checkGameOver()
+                    if (!board.hasValidMoves(currentPlayer)) {
+                        checkGameOver();  // ✅ Call this instead of returning
+                        return;  // ✅ Exit only after checking game over
+                    }
+                }
+
                 statusLabel.setText((currentPlayer == 'B') ? "● Player B's turn" : "○ Player W's turn");
-                checkGameOver();
+                checkGameOver();  // ✅ Ensure checkGameOver() is always called
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid move! Try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
+
 
     private void updateScore() {
         int[] scores = board.getScore();
@@ -95,9 +114,29 @@ public class ReversiGUI extends JFrame {
     private void checkGameOver() {
         if (!board.hasValidMoves('B') && !board.hasValidMoves('W')) {
             int[] scores = board.getScore();
-            String winner = (scores[0] > scores[1]) ? "Player B Wins!" : (scores[0] < scores[1]) ? "Player W Wins!" : "It's a Tie!";
-            JOptionPane.showMessageDialog(this, "Game Over!\n" + winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            String winnerMessage;
+
+            if (scores[0] > scores[1]) {
+                winnerMessage = "Game Over! 🎉 ● Player B wins with " + scores[0] + " points!";
+            } else if (scores[1] > scores[0]) {
+                winnerMessage = "Game Over! 🎉 ○ Player W wins with " + scores[1] + " points!";
+            } else {
+                winnerMessage = "Game Over! It's a tie! 🤝";
+            }
+
+            JOptionPane.showMessageDialog(this, winnerMessage, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+            // 🔹 Disable all buttons so players cannot click after the game ends
+            disableBoard();
+        }
+    }
+
+    // ✅ Helper method to disable board buttons after game ends
+    private void disableBoard() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                cells[i][j].setEnabled(false);
+            }
         }
     }
 
