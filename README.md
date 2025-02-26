@@ -5,17 +5,16 @@ This is a **Java-based Reversi game** with a **graphical user interface (GUI)** 
 to take turns placing pieces, flipping opponent pieces, and competing to control the board.
 
 ## 🎮 Features
-✅ **8x8 Board** – Classic Reversi game grid.  
-✅ **Valid Move Checking** – Ensures only legal moves can be played.  
-✅ **Piece Flipping** – Opponent pieces are flipped when a move is valid.  
-✅ **Turn-Based Play** – Players take alternating turns.  
-✅ **Score Tracking** – Displays the current score of both players.  
-✅ **Game Over Detection** – Ends when no valid moves are left and declares the winner.  
+✅ **8x8 Board** : Classic Reversi game grid.  
+✅ **Valid Move Checking** : Ensures only legal moves can be played.  
+✅ **Piece Flipping** : Opponent pieces are flipped when a move is valid.  
+✅ **Turn-Based Play** : Players take alternating turns.  
+✅ **Score Tracking** : Displays the current score of both players.  
+✅ **Game Over Detection** : Ends when no valid moves are left and declares the winner.  
 
 ## 🎲 How to Play
 1️⃣ **Game Setup:**  
    - The game starts with **two black (`●`) and two white (`○`) pieces placed in the center of the 8x8 board.**  
-   - Black (`●`) always plays first.  
 
 2️⃣ **Making a Move:**  
    - Players take turns placing their pieces on an **empty square**.  
@@ -67,8 +66,8 @@ cd ReversiGame
 ### 2️⃣ **Run the Game**
 If using **Gradle**, simply execute:
 ```sh
-./gradlew run  # For Linux/macOS
-gradlew.bat run  # For Windows
+./gradle run  # For Linux/macOS
+gradle.bat run  # For Windows
 ```
 Or, if running manually in an IDE like IntelliJ or Eclipse:
 1. Open the project in the IDE.
@@ -77,7 +76,7 @@ Or, if running manually in an IDE like IntelliJ or Eclipse:
 ## ✅ Running Tests
 Run all **JUnit tests** using Gradle:
 ```sh
-./gradlew test
+./gradle test
 ```
 ✅ If all tests pass, the game logic is working correctly!
 
