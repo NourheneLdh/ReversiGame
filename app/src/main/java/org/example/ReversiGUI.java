@@ -76,9 +76,10 @@ public class ReversiGUI extends JFrame {
     private void handleMove(int row, int col) {
         SwingUtilities.invokeLater(() -> {
             if (board.makeMove(row, col, currentPlayer)) {
+                updateBoard();  // Ensure board updates in the UI
+                this.repaint();  // Force repaint
                 currentPlayer = (currentPlayer == 'B') ? 'W' : 'B';
                 statusLabel.setText((currentPlayer == 'B') ? "● Player B's turn" : "○ Player W's turn");
-                updateBoard();
                 checkGameOver();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid move! Try again.", "Error", JOptionPane.ERROR_MESSAGE);

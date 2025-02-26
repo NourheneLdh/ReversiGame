@@ -31,6 +31,12 @@ public class Board {
         }
         board[row][col] = player;
         flipPieces(row, col, player);
+
+        // Debugging: Print board after move
+        System.out.println("Board after move:");
+        for (char[] rowArr : board) {
+            System.out.println(new String(rowArr));
+        }
         return true;
     }
 

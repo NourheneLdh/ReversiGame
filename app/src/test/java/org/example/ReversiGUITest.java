@@ -41,14 +41,19 @@ public class ReversiGUITest {
     }
 
     @Test
-    public void testValidMoveUpdatesBoard() {
-        // Try clicking a button (e.g., a valid move at 2,3)
+    public void testValidMoveUpdatesBoard() throws Exception {
+        // Click button for a valid move (2,3)
         window.button("button_2_3").click();
 
-        // Small delay to allow board update
-        try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+        // 🔹 Allow time for GUI to process move and repaint
+        Thread.sleep(1000);
+        SwingUtilities.invokeAndWait(() -> {});
 
-        // Check if the board has changed
+        // 🔹 Debugging: Print board state & button text
+        System.out.println("DEBUG: Board piece at (2,3) after move: " + board.getPiece(2, 3));
+        System.out.println("DEBUG: GUI button text at (2,3): " + window.button("button_2_3").text());
+
+        // 🔹 Check if the board updated
         Assertions.assertNotEquals('.', board.getPiece(2, 3), "Board should update after a valid move");
     }
 
